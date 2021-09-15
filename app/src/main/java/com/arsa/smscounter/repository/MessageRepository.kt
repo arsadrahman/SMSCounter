@@ -1,0 +1,17 @@
+package com.arsa.smscounter.repository
+
+import androidx.lifecycle.LiveData
+import com.arsa.smscounter.datasource.MessageDataSource
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.IO
+
+class MessageRepository(private val source: MessageDataSource, private val dispatcher: CoroutineDispatcher) {
+
+    suspend fun getMessageCounts(phoneNumber: String, days: Int):Int{
+
+        return withContext(dispatcher){
+            source.getCountOfTheNumberWithDays(phoneNumber,days)
+        }
+    }
+
+}
