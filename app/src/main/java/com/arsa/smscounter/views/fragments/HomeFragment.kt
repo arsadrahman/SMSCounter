@@ -75,7 +75,11 @@ class HomeFragment : Fragment() {
 
     fun dismissLoadingScreen(){
             loadingscreen.visibility = GONE
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.cancelJob()
     }
 
 

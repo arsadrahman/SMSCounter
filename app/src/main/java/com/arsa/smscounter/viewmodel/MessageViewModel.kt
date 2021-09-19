@@ -13,6 +13,10 @@ class MessageViewModel (context: Application,
         emit(messageRepository.getMessageCounts(phoneNumber,days))
     }
 
+    fun cancelJob(){
+        messageRepository.cancelJob()
+    }
+
 
 
 }

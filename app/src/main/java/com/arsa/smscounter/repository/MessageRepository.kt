@@ -6,11 +6,19 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 
 class MessageRepository(private val source: MessageDataSource, private val dispatcher: CoroutineDispatcher) {
-
+    lateinit var job:Job
     suspend fun getMessageCounts(phoneNumber: String, days: Int):Int{
 
-        return withContext(dispatcher){
-            source.getCountOfTheNumberWithDays(phoneNumber,days)
+        job = Job()
+        val i = CoroutineScope(dispatcher+job).async {
+            return@async source.getCountOfTheNumberWithDays(phoneNumber,days)
+        }
+        return i.await()
+    }
+
+    fun cancelJob(){
+        if(job.isActive){
+            job.cancel()
         }
     }
 
